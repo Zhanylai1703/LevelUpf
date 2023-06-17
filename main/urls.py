@@ -12,12 +12,15 @@ from apps.courses.views import (
     CourseDetailView,
     CourseListView,
     FAQListView,
-    SubCategoryListView
+    SubCategoryListView,
+    SubCategoryDetailView,
  )
 from apps.users.views import (
     RegisterView,
     LoginView,
 )
+from apps.tests.views import AnswerSubmitAPIView
+
 
 schema_view = get_schema_view(
    openapi.Info(
@@ -42,6 +45,8 @@ api_v1 = [
     path('subcategory/', SubCategoryListView.as_view()),
     path('register/', RegisterView.as_view()),
     path('login/', LoginView.as_view()),
+    path('tests/<int:test_id>/submit/', AnswerSubmitAPIView.as_view(), name='answer-submit'),
+    path("sub-category/<int:pk>", SubCategoryDetailView.as_view()),
 ]
 
 

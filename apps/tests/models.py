@@ -56,6 +56,10 @@ class Question(models.Model):
 
 
 class Test(models.Model):
+    user = models.ForeignKey(
+        'users.User', verbose_name='Пользователь',
+        on_delete=models.CASCADE, related_name="tests"
+    )
     name = models.CharField(max_length=255, verbose_name='название теста')
     form_for_user = models.ForeignKey(
         FormForUser, verbose_name='Формы для пользователей',
