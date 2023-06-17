@@ -25,7 +25,7 @@ class SubCategoryListView(generics.ListAPIView):
 
 
 class SubCategoryDetailView(generics.RetrieveAPIView):
-    serializer_class = CategorySerializer
+    serializer_class = SubCategorySerializer
     queryset = SubCategory.objects.all()
 
 
