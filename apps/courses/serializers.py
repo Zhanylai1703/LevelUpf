@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from apps.courses.models import Category
+from apps.courses.models import Category, Course, Faq
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -11,4 +11,25 @@ class CategorySerializer(serializers.ModelSerializer):
             'name',
             'parent',
             'photo',
+        )
+
+
+class CourseSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Course
+        fields = (
+            'title',
+            'subtitle',
+            'category',
+            'description',
+            'photo',
+        )
+
+
+class FaqSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Faq
+        fields = (
+            'question',
+            'answer',
         )

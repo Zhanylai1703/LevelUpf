@@ -6,7 +6,7 @@ from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 
-from apps.courses.views import CategoryListView, CategoryDetailView
+from apps.courses.views import CategoryListView, CategoryDetailView, FAQListView
 
 schema_view = get_schema_view(
    openapi.Info(
@@ -21,17 +21,18 @@ schema_view = get_schema_view(
    permission_classes=[permissions.AllowAny],
 )
 
+
 api_v1 = [
     path("categories/", CategoryListView.as_view()),
-    path("category/<int:pk>", CategoryDetailView.as_view())
+    path("category/<int:pk>", CategoryDetailView.as_view()),
+    path('faq/', FAQListView.as_view()),
 ]
 
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("v1/", include(api_v1)),
+    path("api/v1/", include(api_v1)),
     path('swagger<format>/', schema_view.without_ui(cache_timeout=0), name='schema-json'),
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='redoc'),
 ]
-

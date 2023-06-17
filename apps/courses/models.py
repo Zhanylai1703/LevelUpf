@@ -58,3 +58,17 @@ class Course(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class Faq(models.Model):
+    question = models.CharField(
+        max_length=200, verbose_name='Вопрос'
+    )
+    answer = models.TextField(verbose_name='Ответ')
+
+    class Meta:
+        verbose_name = 'FAQ'
+        verbose_name_plural = 'FAQ'
+
+    def __str__(self):
+        return f'{self.question} - {self.answer}'
