@@ -9,6 +9,25 @@ from apps.tests.models import (
 )
 
 
+class QuestionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Question
+        fields = (
+            'id',
+            'text',
+        )
+
+
+class AnswerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Answer
+        fields = (
+            'id',
+            'answer',
+
+        )
+
+
 class TestSerializer(serializers.ModelSerializer):
     class Meta:
         model = Test

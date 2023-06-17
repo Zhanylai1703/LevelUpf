@@ -6,11 +6,22 @@ from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 
-from apps.courses.views import CategoryListView, CategoryDetailView, CourseDetailView, CourseListView, FAQListView, SubCategoryListView
+from apps.courses.views import (
+    CategoryListView,
+    CategoryDetailView,
+    CourseDetailView,
+    CourseListView,
+    FAQListView,
+    SubCategoryListView
+ )
+from apps.users.views import (
+    RegisterView,
+    LoginView,
+)
 
 schema_view = get_schema_view(
    openapi.Info(
-      title="EPAM",
+      title="LevelUp",
       default_version='v1',
       description="username:user / password:user",
       terms_of_service="https://www.google.com/policies/terms/",
@@ -25,10 +36,12 @@ schema_view = get_schema_view(
 api_v1 = [
     path("categories/", CategoryListView.as_view()),
     path("category/<int:pk>", CategoryDetailView.as_view()),
-    path("courses/", CourseListView.as_view()),
-    path("course/<int:pk>", CourseDetailView.as_view()),
+    path("directionы/", CourseListView.as_view()),
+    path("direction/<int:pk>", CourseDetailView.as_view()),
     path('faq/', FAQListView.as_view()),
     path('subcategory/', SubCategoryListView.as_view()),
+    path('register/', RegisterView.as_view()),
+    path('login/', LoginView.as_view()),
 ]
 
 
@@ -39,3 +52,4 @@ urlpatterns = [
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='redoc'),
 ]
+
