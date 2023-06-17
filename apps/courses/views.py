@@ -28,6 +28,4 @@ class CourseDetailView(generics.RetrieveAPIView):
 
 class FAQListView(generics.ListAPIView):
     serializer_class = FaqSerializer
-    filter_backends = [filters.SearchFilter]
-    search_fields = ['question']
     queryset = Faq.objects.all()

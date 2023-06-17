@@ -67,8 +67,8 @@ class Faq(models.Model):
     answer = models.TextField(verbose_name='Ответ')
 
     class Meta:
-        verbose_name = 'FAQ'
-        verbose_name_plural = 'FAQ'
+        verbose_name = 'Часто Задаваемый Вопрос'
+        verbose_name_plural = 'Часто Задаваемые Вопросы'
 
     def __str__(self):
         return f'{self.question} - {self.answer}'
