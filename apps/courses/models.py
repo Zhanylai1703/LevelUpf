@@ -32,7 +32,7 @@ class Photo(models.Model):
         verbose_name_plural = 'Картинки'
 
     def __str__(self):
-        return self.os.path.basename(self.image.name)
+        return self.image.name
 
 
 class Course(models.Model):

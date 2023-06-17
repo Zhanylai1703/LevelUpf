@@ -1,5 +1,5 @@
 from django.contrib import admin
-from apps.tests.models import Answer, Question, Test
+from apps.tests.models import Answer, Question, Test, FormForUser, Adress
 
 
 class AnswerInline(admin.TabularInline):
@@ -13,4 +13,14 @@ class QuestionAdmin(admin.ModelAdmin):
 
 @admin.register(Test)
 class TestAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(FormForUser)
+class FormForUser(admin.ModelAdmin):
+    pass
+
+
+@admin.register(Adress)
+class Adress(admin.ModelAdmin):
     pass

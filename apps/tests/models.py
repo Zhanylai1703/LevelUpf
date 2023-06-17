@@ -4,6 +4,22 @@ from apps.courses.models import Course
 from apps.tests.constants import LEVEL_CHOICES
 
 
+class Adress(models.Model):
+    region = models.CharField(
+        max_length=255, verbose_name='Регион/Область'
+    )
+    adress = models.CharField(
+        max_length=255, verbose_name='Адресс'
+    )
+
+    class Meta:
+        verbose_name = 'Адресс'
+        verbose_name_plural = 'Адресса'
+
+    def __str__(self):
+        return f'{self.region} - {self.adress}'
+
+
 class FormForUser(models.Model):
     name = models.CharField(max_length=55, verbose_name="Имя Пользователя")
     surname = models.CharField(
@@ -14,6 +30,10 @@ class FormForUser(models.Model):
     )
     email = models.EmailField(
         max_length=100, verbose_name="Email Пользователя"
+    )
+    adress = models.ForeignKey(
+        Adress, verbose_name='Адресс',
+        on_delete=models.CASCADE, related_name="FormForUsers"
     )
 
     class Meta:
