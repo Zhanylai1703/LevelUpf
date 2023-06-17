@@ -39,7 +39,7 @@ schema_view = get_schema_view(
 api_v1 = [
     path("categories/", CategoryListView.as_view()),
     path("category/<int:pk>", CategoryDetailView.as_view()),
-    path("directionы/", CourseListView.as_view()),
+    path("direction/", CourseListView.as_view()),
     path("direction/<int:pk>", CourseDetailView.as_view()),
     path('faq/', FAQListView.as_view()),
     path('subcategory/', SubCategoryListView.as_view()),
