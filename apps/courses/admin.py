@@ -1,3 +1,18 @@
 from django.contrib import admin
 
-# Register your models here.
+from apps.courses.models import Category, Photo, Course
+
+
+@admin.register(Category)
+class CategoryAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(Photo)
+class PhotoAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(Course)
+class CourseAdmin(admin.ModelAdmin):
+    pass
