@@ -6,6 +6,7 @@ class Category(MPTTModel):
     name = models.CharField(
         max_length=50, verbose_name="Название", unique=True
     )
+    photo = models.FileField(upload_to='category/')
     parent = TreeForeignKey(
         'self',
         on_delete=models.CASCADE,
@@ -36,7 +37,9 @@ class Photo(models.Model):
 
 class Course(models.Model):
     title = models.CharField(max_length=255, verbose_name="Заголовок")
-    subtitle = models.CharField(max_length=255, verbose_name="Подзаголовок")
+    subtitle = models.CharField(
+        max_length=255, null=True, blank=True, verbose_name="Подзаголовок"
+    )
     category = models.ForeignKey(
         Category, on_delete=models.CASCADE, verbose_name="Категория",
         related_name="Courses"
