@@ -80,6 +80,9 @@ class Test(models.Model):
 
 
 class Answer(models.Model):
+    answer = models.CharField(
+        max_length=255, verbose_name="Ответ"
+    )
     question = models.ForeignKey(
         Question, verbose_name='Вопрос',
         on_delete=models.CASCADE, related_name="answers"
@@ -93,4 +96,4 @@ class Answer(models.Model):
         verbose_name_plural = 'Ответы'
 
     def __str__(self):
-        return self.question
+        return self.answer
