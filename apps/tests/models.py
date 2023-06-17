@@ -32,8 +32,11 @@ class FormForUser(models.Model):
         max_length=100, verbose_name="Email Пользователя"
     )
     adress = models.ForeignKey(
-        Adress, verbose_name='Адресс',
+        Adress, verbose_name='Адресс', null=True, blank=True,
         on_delete=models.CASCADE, related_name="FormForUsers"
+    )
+    feedback = models.TextField(
+        verbose_name='Обратная связь'
     )
 
     class Meta:

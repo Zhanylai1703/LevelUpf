@@ -1,6 +1,7 @@
 from rest_framework import serializers
 
 from apps.courses.models import Category, Course, Faq
+from apps.tests.models import FormForUser
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -32,4 +33,14 @@ class FaqSerializer(serializers.ModelSerializer):
         fields = (
             'question',
             'answer',
+        )
+
+
+class FeedbackSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = FormForUser
+        fields = (
+            'name',
+            'phone_number',
+            'feedback',
         )

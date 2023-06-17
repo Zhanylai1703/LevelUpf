@@ -1,9 +1,16 @@
 from django.shortcuts import render
 
 from rest_framework import generics, filters
+from apps.courses.managers import FeedbackMessageManager
 
-from apps.courses.serializers import CategorySerializer, CourseSerializer, FaqSerializer
+from apps.courses.serializers import(
+    CategorySerializer,
+    CourseSerializer,
+    FaqSerializer,
+    FeedbackSerializer
+)
 from apps.courses.models import Category, Course, Faq
+from apps.tests.models import FormForUser
 
 
 class CategoryListView(generics.ListAPIView):
@@ -29,3 +36,11 @@ class CourseDetailView(generics.RetrieveAPIView):
 class FAQListView(generics.ListAPIView):
     serializer_class = FaqSerializer
     queryset = Faq.objects.all()
+
+
+class FeedbackMessageCreateView(generics.CreateAPIView):
+    serializer_class = FeedbackSerializer
+
+    def perform_create(self, serializer):
+        feedback_message = serializer.save()
+        return FeedbackMessageManager.perform_create(feedback_message)

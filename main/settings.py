@@ -59,6 +59,13 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = "main.urls"
 
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'adilet.meta@gmail.com'
+EMAIL_HOST_PASSWORD = 'eeuvuiimvejhhjmx'
+EMAIL_PORT = 587
+ADMIN_EMAIL = 'rypysh.oo@gmail.com'
+
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
