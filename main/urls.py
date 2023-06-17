@@ -6,7 +6,7 @@ from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 
-from apps.courses.views import CategoryListView, CategoryDetailView, CourseDetailView, CourseListView, FAQListView
+from apps.courses.views import CategoryListView, CategoryDetailView, CourseDetailView, CourseListView, FAQListView, SubCategoryListView
 
 schema_view = get_schema_view(
    openapi.Info(
@@ -28,6 +28,7 @@ api_v1 = [
     path("courses/", CourseListView.as_view()),
     path("course/<int:pk>", CourseDetailView.as_view()),
     path('faq/', FAQListView.as_view()),
+    path('subcategory/', SubCategoryListView.as_view()),
 ]
 
 

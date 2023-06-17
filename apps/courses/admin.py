@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from apps.courses.models import Category, Photo, Course, Faq
+from apps.courses.models import Category, Photo, Course, Faq, SubCategory
 
 
 @admin.register(Category)
@@ -20,4 +20,9 @@ class CourseAdmin(admin.ModelAdmin):
 
 @admin.register(Faq)
 class FaqAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(SubCategory)
+class SubCategoryAdmin(admin.ModelAdmin):
     pass
