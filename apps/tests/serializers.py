@@ -5,8 +5,24 @@ from apps.tests.models import (
     Answer,
     Test,
     Course,
-    FormForUser
+    FormForUser, 
+    TestResult, 
+    OfflineRegistration
 )
+
+
+class OfflineRegistrationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = OfflineRegistration
+        fields = (
+            'id',
+            'user',
+            'test', 
+            'address', 
+            'datetime_selection',
+            'date_created',
+            'is_approved',
+        )
 
 
 class QuestionSerializer(serializers.ModelSerializer):
@@ -39,4 +55,17 @@ class TestSerializer(serializers.ModelSerializer):
             'question',
             'is_demo',
             'level',
+        )
+
+
+class TestResultSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TestResult
+        fields = (
+            'id',
+            'user', 
+            'test', 
+            'correct_answers',
+            'total_questions',
+            'date_completed',
         )
