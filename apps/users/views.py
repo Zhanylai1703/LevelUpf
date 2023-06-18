@@ -1,12 +1,22 @@
 from django.shortcuts import get_object_or_404
 
-from rest_framework import generics, status
+from rest_framework import generics, status, permissions
 from rest_framework.response import Response
 
 from rest_framework_simplejwt.tokens import RefreshToken
 
 from apps.users.models import User
-from apps.users.serializers import LoginSerializer, RegisterSerializer
+from apps.users.serializers import LoginSerializer, RegisterSerializer, FeedbackSerializer
+from apps.users.managers import FeedbackMessageManager
+
+
+class FeedbackMessageCreateView(generics.CreateAPIView):
+    serializer_class = FeedbackSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def perform_create(self, serializer):
+        feedback_message = serializer.save()
+        return FeedbackMessageManager.perform_create(feedback_message)
 
 
 class RegisterView(generics.CreateAPIView):

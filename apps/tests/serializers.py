@@ -40,7 +40,6 @@ class AnswerSerializer(serializers.ModelSerializer):
         fields = (
             'id',
             'answer',
-
         )
 
 
