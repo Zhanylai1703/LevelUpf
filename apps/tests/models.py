@@ -10,8 +10,7 @@ class Adress(models.Model):
         max_length=255, verbose_name='Регион/Область'
     )
     adress = models.CharField(
-        max_length=255, verbose_name='Адресс',
-        null=True, blank=True,
+        max_length=255, verbose_name='Адресс'
     )
 
     class Meta:
@@ -34,10 +33,9 @@ class FormForUser(models.Model):
         max_length=100, verbose_name="Email Пользователя"
     )
     adress = models.ForeignKey(
-        Adress, verbose_name='Адресс', null=True, blank=True,
+        Adress, verbose_name='Адресс',
         on_delete=models.CASCADE, related_name="FormForUsers"
     )
-    feedback = models.TextField(verbose_name='Текст')
 
     class Meta:
         verbose_name = 'Форма для пользователя'
@@ -106,18 +104,12 @@ class Answer(models.Model):
         return self.answer
 
 
-class UserAnswer(models.Model):
-    user = models.ForeignKey('users.User', on_delete=models.CASCADE)
-    question = models.ForeignKey(Question, on_delete=models.CASCADE)
-    answer = models.ForeignKey(Answer, on_delete=models.CASCADE)
-
-
 class TestResult(models.Model):
     user = models.ForeignKey(
         User, on_delete=models.CASCADE, verbose_name='Пользователь'
     )
     test = models.ForeignKey(
-        Test, on_delete=models.CASCADE,
+        Test, on_delete=models.CASCADE, 
         related_name='test_result', verbose_name='Тест'
     )
     correct_answers = models.PositiveIntegerField(
@@ -140,15 +132,15 @@ class TestResult(models.Model):
 
 class OfflineRegistration(models.Model):
     user = models.ForeignKey(
-        User, on_delete=models.CASCADE,
+        User, on_delete=models.CASCADE, 
         verbose_name='Пользователь'
     )
     test = models.ForeignKey(
-        Test, on_delete=models.CASCADE,
+        Test, on_delete=models.CASCADE, 
         verbose_name='Событие'
     )
     address = models.ForeignKey(
-        Adress, on_delete=models.CASCADE,
+        Adress, on_delete=models.CASCADE, 
         verbose_name='Адрес'
     )
     datetime_selection = models.DateTimeField(

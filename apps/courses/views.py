@@ -1,4 +1,3 @@
-from django.shortcuts import get_object_or_404
 from rest_framework import generics
 
 from apps.courses.serializers import (
@@ -21,16 +20,8 @@ class CategoryListView(generics.ListAPIView):
 
 
 class SubCategoryListView(generics.ListAPIView):
+    queryset = SubCategory.objects.all()
     serializer_class = SubCategorySerializer
-
-    def get_queryset(self):
-        category = self.request.query_params.get('category')
-        queryset = SubCategory.objects.all()
-
-        if category:
-            queryset = queryset.filter(category=category)
-
-        return queryset
 
 
 class SubCategoryDetailView(generics.RetrieveAPIView):

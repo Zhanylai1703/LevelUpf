@@ -1,6 +1,6 @@
 from django.contrib import admin
 from apps.tests.models import (
-    Answer, Question, Test, FormForUser,
+    Answer, Question, Test, FormForUser, 
     Adress, TestResult, OfflineRegistration
 
 )
@@ -26,5 +26,15 @@ class FormForUser(admin.ModelAdmin):
 
 
 @admin.register(Adress)
+class Adress(admin.ModelAdmin):
+    pass
+
+
+@admin.register(OfflineRegistration)
+class OfflineRegistration(admin.ModelAdmin):
+    pass
+
+
+@admin.register(TestResult)
 class Adress(admin.ModelAdmin):
     pass

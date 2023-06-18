@@ -1,7 +1,6 @@
 from rest_framework import serializers
 
 from apps.users.models import User
-from apps.tests.models import FormForUser
 
 
 class RegisterSerializer(serializers.ModelSerializer):
@@ -53,14 +52,3 @@ class LoginSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("Invalid password.")
 
         return attrs
-
-
-class FeedbackSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = FormForUser
-        fields = (
-            'id',
-            'name',
-            'phone_number',
-            'feedback',
-        )

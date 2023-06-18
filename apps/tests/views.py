@@ -1,43 +1,6 @@
 from rest_framework.views import APIView
 from rest_framework import generics, permissions
 from rest_framework.response import Response
-from .models import Test, Answer
-from .serializers import AnswerSerializer, TestSerializer
-from rest_framework import viewsets
-from rest_framework.decorators import action
-from rest_framework.response import Response
-from .models import Test, UserAnswer
-from .serializers import TestSerializer, UserAnswerSerializer
-
-
-class TestViewSet(viewsets.ModelViewSet):
-    queryset = Test.objects.all()
-    serializer_class = TestSerializer
-
-    @action(detail=True, methods=['post'])
-    def submit_test(self, request, pk=None):
-        test_instance = self.get_object()
-        user_answers_data = request.data.get('user_answers', [])
-
-        # Validate and save user answers
-        user_answers = []
-        for answer_data in user_answers_data:
-            question_id = answer_data['question']
-            answer_id = answer_data['answer']
-
-            question = test_instance.question.get(id=question_id)
-            answer = question.answers.get(id=answer_id)
-
-            user_answer = UserAnswer(question=question, answer=answer)
-            user_answers.append(user_answer)
-
-        UserAnswer.objects.bulk_create(user_answers)
-
-        # Perform test logic
-        result = test_instance.test_logic(user_answers)
-
-        return Response({'result': result})
-
 from django.shortcuts import get_object_or_404
 
 from apps.tests.models import (
