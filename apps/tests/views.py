@@ -1,45 +1,75 @@
-from django.shortcuts import render
-from rest_framework import generics, status
+from rest_framework.views import APIView
+from rest_framework import generics, permissions
 from rest_framework.response import Response
-from .models import Test, Answer
-from .serializers import AnswerSerializer
+from django.shortcuts import get_object_or_404
+
+from apps.tests.models import (
+    Test, Question, Answer, TestResult, OfflineRegistration
+)
+from apps.tests.serializers import (
+    TestSerializer, TestResultSerializer,
+    OfflineRegistrationSerializer
+)
 
 
-class AnswerSubmitAPIView(generics.CreateAPIView):
-    queryset = Answer.objects.all()
-    serializer_class = AnswerSerializer
+class OfflineRegistrationCreateView(generics.CreateAPIView):
+    queryset = OfflineRegistration.objects.all()
+    serializer_class = OfflineRegistrationSerializer
+    permission_classes = [permissions.IsAuthenticated]
 
-    def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
 
-        # Retrieve the test based on the provided test ID
-        test_id = kwargs['test_id']
-        test = Test.objects.get(pk=test_id)
+class TestListView(APIView):
+    def get(self, request):
+        tests = Test.objects.all()
+        serializer = TestSerializer(tests, many=True)
+        return Response(serializer.data)
 
-        # Get the list of submitted answers
-        submitted_answers = serializer.validated_data.get('answers', [])
 
-        # Calculate the number of correct answers
-        correct_answers_count = 0
-        for submitted_answer in submitted_answers:
-            answer_id = submitted_answer.get('id')
-            is_true = submitted_answer.get('is_true')
+class TestSubmissionView(APIView):
+    def post(self, request):
+        test_id = request.data.get('test_id')
+        user_answers = request.data.get('answers')
 
-            # Retrieve the corresponding answer from the database
+        test = get_object_or_404(Test, id=test_id)
+
+        correct_answers = 0
+        total_questions = test.question.count()
+
+        for answer in user_answers:
             try:
-                answer = Answer.objects.get(pk=answer_id)
-            except Answer.DoesNotExist:
-                continue
+                question = Question.objects.get(id=answer['question_id'])
+                selected_answer = Answer.objects.get(id=answer['answer_id'])
+            except (Question.DoesNotExist, Answer.DoesNotExist):
+                return Response({"error": "Invalid question or answer"}, status=404)
 
-            if answer.is_true == is_true:
-                correct_answers_count += 1
+            if selected_answer.is_true and selected_answer.question == question:
+                correct_answers += 1
 
-        # Calculate the percentage of correct answers
-        total_questions_count = test.question.count()
-        percentage = (correct_answers_count / total_questions_count) * 100
+        result = TestResult.objects.create(
+            user=request.user, test=test,
+            correct_answers=correct_answers, total_questions=total_questions
+        )
+        serializer = TestResultSerializer(result)
+        return Response(serializer.data, status=201)
 
-        # Perform any additional business logic here
-        # For example, save the test result to the user's profile
 
-        return Response({'percentage': percentage}, status=status.HTTP_201_CREATED)
+class TestResultView(APIView):
+    def get(self, request):
+        results = TestResult.objects.filter(user=request.user)
+        serializer = TestResultSerializer(results, many=True)
+        return Response(serializer.data)
+
+
+class QuizDetailView(APIView):
+    def get(self, request, test_id):
+        test = get_object_or_404(Test, id=test_id)
+
+        is_completed = TestResult.objects.filter(user=request.user, test=test).exists()
+
+        correct_answers = {}
+        for question in test.question.all():
+            answers = Answer.objects.filter(question=question, is_true=True)
+            correct_answers[question.id] = [answer.id for answer in answers]
+
+        serializer = TestSerializer(test, context={'is_completed': is_completed, 'correct_answers': correct_answers})
+        return Response(serializer.data)
