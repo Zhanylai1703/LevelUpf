@@ -50,7 +50,7 @@ class Course(models.Model):
         max_length=255, null=True, blank=True, verbose_name="Подзаголовок"
     )
     category = models.ForeignKey(
-        Category, on_delete=models.CASCADE, verbose_name="Категория",
+        SubCategory, on_delete=models.CASCADE, verbose_name="Категория",
         related_name="Courses"
     )
     description = models.TextField(
@@ -59,6 +59,9 @@ class Course(models.Model):
     photo = models.ForeignKey(
         Photo, on_delete=models.CASCADE, verbose_name="Картина",
         related_name="Courses"
+    )
+    topic = models.TextField(
+        verbose_name='Тема'
     )
 
     class Meta:
