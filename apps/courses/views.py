@@ -1,9 +1,17 @@
-from django.shortcuts import render
+from rest_framework import generics
 
-from rest_framework import generics, filters
-
-from apps.courses.serializers import CategorySerializer, CourseSerializer, FaqSerializer, SubCategorySerializer
-from apps.courses.models import Category, Course, Faq, SubCategory
+from apps.courses.serializers import (
+    CategorySerializer,
+    CourseSerializer,
+    FaqSerializer,
+    SubCategorySerializer
+)
+from apps.courses.models import (
+    Category,
+    Course,
+    Faq,
+    SubCategory
+)
 
 
 class CategoryListView(generics.ListAPIView):
@@ -14,6 +22,11 @@ class CategoryListView(generics.ListAPIView):
 class SubCategoryListView(generics.ListAPIView):
     queryset = SubCategory.objects.all()
     serializer_class = SubCategorySerializer
+
+
+class SubCategoryDetailView(generics.RetrieveAPIView):
+    serializer_class = SubCategorySerializer
+    queryset = SubCategory.objects.all()
 
 
 class CategoryDetailView(generics.RetrieveAPIView):

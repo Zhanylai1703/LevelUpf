@@ -1,6 +1,7 @@
 from django.db import models
 
 from apps.courses.models import Course
+from apps.users.models import User
 from apps.tests.constants import LEVEL_CHOICES
 
 
@@ -56,6 +57,10 @@ class Question(models.Model):
 
 
 class Test(models.Model):
+    user = models.ForeignKey(
+        'users.User', verbose_name='Пользователь',
+        on_delete=models.CASCADE, related_name="tests"
+    )
     name = models.CharField(max_length=255, verbose_name='название теста')
     form_for_user = models.ForeignKey(
         FormForUser, verbose_name='Формы для пользователей',
@@ -97,3 +102,57 @@ class Answer(models.Model):
 
     def __str__(self):
         return self.answer
+
+
+class TestResult(models.Model):
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, verbose_name='Пользователь'
+    )
+    test = models.ForeignKey(
+        Test, on_delete=models.CASCADE, 
+        related_name='test_result', verbose_name='Тест'
+    )
+    correct_answers = models.PositiveIntegerField(
+        verbose_name='Количество правильных ответов'
+    )
+    total_questions = models.PositiveIntegerField(
+        verbose_name='Общее количество вопросов'
+    )
+    date_completed = models.DateTimeField(
+        auto_now_add=True, verbose_name='Дата завершения'
+    )
+
+    class Meta:
+        verbose_name = 'Результат теста'
+        verbose_name_plural = 'Результаты тестов'
+
+    def __str__(self):
+        return f'{self.user.username} - {self.test.name}'
+
+
+class OfflineRegistration(models.Model):
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, 
+        verbose_name='Пользователь'
+    )
+    test = models.ForeignKey(
+        Test, on_delete=models.CASCADE, 
+        verbose_name='Событие'
+    )
+    address = models.ForeignKey(
+        Adress, on_delete=models.CASCADE, 
+        verbose_name='Адрес'
+    )
+    datetime_selection = models.DateTimeField(
+        verbose_name='Выбор даты и времени'
+    )
+    date_created = models.DateTimeField(
+        auto_now_add=True, verbose_name='Дата создания'
+    )
+    is_approved = models.BooleanField(
+        default=False, verbose_name='Утверждено'
+    )
+
+    class Meta:
+        verbose_name = 'Заявка на запись на офлайн'
+        verbose_name_plural = 'Заявки на запись на офлайн'

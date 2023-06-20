@@ -24,6 +24,7 @@ class SubCategory(models.Model):
         Category, on_delete=models.CASCADE, verbose_name="Категория",
         related_name="sub_categories"
     )
+    photo = models.FileField(upload_to='category/')
 
     class Meta:
         verbose_name = 'ПодКатегория'
